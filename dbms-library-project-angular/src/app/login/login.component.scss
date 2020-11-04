@@ -1,0 +1,18 @@
+.login {
+    max-width: 600px;
+    margin: auto;
+    margin-top: 50px !IMPORTANT;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 25px !IMPORTANT;
+    margin-bottom: 45px !IMPORTANT;
+}
+
+.login-container mat-form-field, button {
+    width: 300px;
+}
