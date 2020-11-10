@@ -13,7 +13,7 @@ finesRouter.route('/')
         res.statusCode = 401;
         res.json({"message": "Not authorized"});
     }
-    db.query(`SELECT f.fine_id, f.issue_id, f.fine_amount, b.memb_id FROM fine AS f JOIN borrows AS b ON f.issue_id = b.issue_id`)
+    db.query(`SELECT f.fine_id, f.issue_id, f.fine_amount, b.memb_id FROM fine AS f JOIN borrows AS b ON f.issue_id = b.issue_id AND f.fine_amount > 0`)
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -22,11 +22,11 @@ finesRouter.route('/')
     .catch((err) => next(err));
 });
 
-finesRouter.route('/:membId')
+finesRouter.route('/members')
 .get(auth.authenticateToken, (req, res, next) => {
     db.query(`SELECT f.fine_id, f.fine_amount, b.book_title FROM fine AS f JOIN borrows AS br ON f.issue_id = br.issue_id 
     JOIN book_listing AS bl ON br.book_isbn = bl.book_isbn 
-    JOIN book AS b ON bl.book_id = b.book_id AND br.memb_id = ${req.params.membId} AND f.fine_amount > 0`)
+    JOIN book AS b ON bl.book_id = b.book_id AND br.memb_id = ${req.memb_id} AND f.fine_amount > 0`)
      .then((resp) => {
          res.statusCode = 200;
          res.setHeader('Content-Type', 'application/json');

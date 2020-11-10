@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 var booksRouter = require('./routes/booksRouter');
 var finesRouter = require('./routes/finesRouter');
 var authRouter = require('./routes/authRouter');
+var borrowsRouter = require('./routes/borrowRouter');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(function(req, res, next) {
 app.use('/api/books', booksRouter);
 app.use('/api/fines', finesRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/borrow', borrowsRouter);
 
 app.listen(3000, () => {
     console.log("Starting Server on PORT 3000");

@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
+
+import { BooksService } from '../services/books.service';
 
 export interface PeriodicElement {
   issue_id: number;
@@ -18,13 +22,31 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ReturnComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor(private location: Location,
+    private router: Router,
+    private booksService: BooksService,
+    @Inject('BaseURL') private BaseURL) { }
 
-  ngOnInit(): void {
-  }
+  dataSource: any;
 
   displayedColumns: string[] = ['issue_id', 'book_title', 'due_date', 'return'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+  ngOnInit(): void {
+
+    var accessToken = localStorage.getItem('accessToken');
+
+    var requestOptions = {
+      headers: new HttpHeaders({'authorization': 'Bearer ' + accessToken})
+    }
+
+    this.booksService.getBorrowedBooks(requestOptions)
+    .subscribe(res => {
+      this.dataSource = new MatTableDataSource(res);
+    }, err => {
+      console.log(err);
+    });
+
+  }
 
   goBack(): void {
     this.location.back();

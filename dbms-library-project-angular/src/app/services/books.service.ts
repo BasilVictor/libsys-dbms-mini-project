@@ -8,8 +8,6 @@ import { baseURL } from '../shared/baseurl';
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 import { identifierModuleUrl } from '@angular/compiler';
 
-import { Book } from '../shared/book';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +23,11 @@ export class BooksService {
 
     getBook(req: any, id: number): Observable<any> {
       return this.http.get(baseURL + 'books/' + id, req)
+      .pipe(catchError(this.processHTTPMsgService.handleError));
+    }
+
+    getBorrowedBooks(req: any): Observable<any> {
+      return this.http.get(baseURL + "borrow", req)
       .pipe(catchError(this.processHTTPMsgService.handleError));
     }
 }

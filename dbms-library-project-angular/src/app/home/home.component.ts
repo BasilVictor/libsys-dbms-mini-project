@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private router: Router,
     private booksService: BooksService,
-    @Inject('BaseURL') private BaseUR) {}
+    @Inject('BaseURL') private BaseURL) {}
 
   displayedColumns: string[] = ['book_id', 'book_title', 'publisher_name'];
   dataSource: any;
