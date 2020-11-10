@@ -19,6 +19,7 @@ import { from } from 'rxjs';
 import { HomeComponent } from './home/home.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { FinesComponent } from './fines/fines.component';
+import { ReturnComponent } from './return/return.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { FinesComponent } from './fines/fines.component';
     LoginComponent,
     HomeComponent,
     BookDetailComponent,
-    FinesComponent
+    FinesComponent,
+    ReturnComponent
   ],
   imports: [
     BrowserModule,

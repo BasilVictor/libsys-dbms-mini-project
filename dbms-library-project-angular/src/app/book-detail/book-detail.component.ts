@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 
-
 export interface PeriodicElement {
   book_isbn: number;
   borrow: number;

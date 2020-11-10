@@ -138,7 +138,7 @@ booksRouter.route('/borrow/:bookISBN')
 booksRouter.route('/return/:issueId')
 .post(auth.authenticateToken, (req, res, next) => {
     db.query(`SELECT book_isbn, memb_id, EXTRACT(DAY FROM now() - due_date) AS days FROM borrows 
-    WHERE issue_id = ${req.params.issueId} AND due_date != '1970-01-01'`)
+    WHERE issue_id = ${req.params.issueId} AND due_date > '1970-01-01'`)
     .then((resp) => {
         if(resp.rows.length > 0) {
             var days = resp.rows[0].days;
@@ -149,7 +149,7 @@ booksRouter.route('/return/:issueId')
             }
             db.query(`UPDATE book_listing SET book_available = 1 WHERE book_isbn = ${resp.rows[0].book_isbn} AND book_available = 0`)
             .then((resp) => {
-                db.query(`UPDATE borrows SET due_date = null WHERE issue_id = ${req.params.issueId}`)
+                db.query(`UPDATE borrows SET due_date = '1970-01-01' WHERE issue_id = ${req.params.issueId}`)
                 .then((resp) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
@@ -172,6 +172,19 @@ booksRouter.route('/return/:issueId')
         res.setHeader('Content-Type', 'application/json');
         res.json({"message":"Book never borrowed", "err": err});
     });
+});
+
+booksRouter.route('/borrow/:membId')
+.get(auth.authenticateToken, (req, res, next) => {
+    console.log('hello');
+    db.query(`SELECT br.issue_id, br.due_date, b.book_title FROM borrows AS br JOIN book_listing AS bl ON br.book_isbn = bl.book_isbn 
+    JOIN book AS b ON bl.book_id = b.book_id AND br.memb_id = ${req.params.membId} AND br.due_date > '1970-01-01'`)
+    .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp.rows);
+    })
+    .catch((err) => next(err));
 });
 
 module.exports = booksRouter;

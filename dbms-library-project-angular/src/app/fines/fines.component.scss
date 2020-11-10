@@ -1,0 +1,21 @@
+table {
+    width: 80%;
+    margin: auto;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.table_row:hover {
+    background: whitesmoke;
+}
+
+.button_row {
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
