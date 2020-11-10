@@ -9,7 +9,6 @@ borrowsRouter.use(bodyParser.json());
 
 borrowsRouter.route('/')
 .get(auth.authenticateToken, (req, res, next) => {
-    console.log(req.memb_id);
     db.query(`SELECT br.issue_id, br.due_date, b.book_title FROM borrows AS br JOIN book_listing AS bl ON br.book_isbn = bl.book_isbn 
     JOIN book AS b ON bl.book_id = b.book_id AND br.memb_id = ${req.memb_id} AND br.due_date > '1970-01-01'`)
     .then((resp) => {

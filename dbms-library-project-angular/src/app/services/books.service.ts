@@ -30,4 +30,9 @@ export class BooksService {
       return this.http.get(baseURL + "borrow", req)
       .pipe(catchError(this.processHTTPMsgService.handleError));
     }
+
+    returnBook(req: any, id: number): Observable<any> {
+      return this.http.post(baseURL + 'books/return/' + id, req)
+      .pipe(catchError(this.processHTTPMsgService.handleError));
+    }
 }

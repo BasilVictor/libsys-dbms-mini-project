@@ -28,28 +28,44 @@ export class ReturnComponent implements OnInit {
     @Inject('BaseURL') private BaseURL) { }
 
   dataSource: any;
+  accessToken: string;
+  requestOptions: any;
 
   displayedColumns: string[] = ['issue_id', 'book_title', 'due_date', 'return'];
 
   ngOnInit(): void {
 
-    var accessToken = localStorage.getItem('accessToken');
+    this.accessToken = localStorage.getItem('accessToken');
 
-    var requestOptions = {
-      headers: new HttpHeaders({'authorization': 'Bearer ' + accessToken})
+    this.requestOptions = {
+      headers: new HttpHeaders({'authorization': 'Bearer ' + this.accessToken})
     }
 
-    this.booksService.getBorrowedBooks(requestOptions)
+    this.fetchList();
+
+  }
+
+  fetchList(): void {
+    this.booksService.getBorrowedBooks(this.requestOptions)
     .subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
     }, err => {
       this.router.navigate(['/login']);
     });
-
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  returnBook(id: number): void {
+    console.log(id);
+    this.booksService.returnBook(this.requestOptions, id)
+    .subscribe(res => {
+      this.fetchList();
+    }, err => {
+      console.log(err);
+    });
   }
 
 }

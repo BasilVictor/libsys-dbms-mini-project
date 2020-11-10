@@ -107,8 +107,8 @@ booksRouter.route('/:bookId')
 
 booksRouter.route('/return/:issueId')
 .post(auth.authenticateToken, (req, res, next) => {
-    db.query(`SELECT book_isbn, memb_id, EXTRACT(DAY FROM now() - due_date) AS days FROM borrows 
-    WHERE issue_id = ${req.params.issueId} AND due_date > '1970-01-01'`)
+    db.query(`SELECT book_isbn, EXTRACT(DAY FROM now() - due_date) AS days FROM borrows 
+    WHERE issue_id = ${req.params.issueId} AND due_date > '1970-01-01' AND memb_id = ${req.memb_id}`)
     .then((resp) => {
         if(resp.rows.length > 0) {
             var days = resp.rows[0].days;
