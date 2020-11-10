@@ -9,7 +9,7 @@ booksRouter.use(bodyParser.json());
 
 booksRouter.route('/')
 .get(auth.authenticateToken, (req, res, next) => {
-    db.query(`SELECT * FROM book`)
+    db.query(`SELECT b.book_id, b.book_title, p.publisher_name FROM book AS b JOIN publisher AS p ON b.publisher_id = p.publisher_id`)
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

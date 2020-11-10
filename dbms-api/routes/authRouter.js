@@ -16,7 +16,8 @@ authRouter.route('/login').post((req, res, next) => {
             const payload = { memb_id: req.body.memb_id, memb_type: memb_type };
 
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-            res.json({ accessToken: accessToken });
+            console.log(accessToken);
+            return res.json({ accessToken: accessToken, memb_type: memb_type });
         }
         else {
             res.statusCode = 401;

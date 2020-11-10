@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,6 +22,12 @@ import { HomeComponent } from './home/home.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { FinesComponent } from './fines/fines.component';
 import { ReturnComponent } from './return/return.component';
+
+import { baseURL } from './shared/baseurl';
+
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -42,9 +50,14 @@ import { ReturnComponent } from './return/return.component';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: 'BaseURL', useValue: baseURL},
+    AuthService,
+    ProcessHTTPMsgService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

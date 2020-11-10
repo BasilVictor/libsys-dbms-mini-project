@@ -6,8 +6,8 @@
 </div>
 <div class="container">
     <mat-card>
-        <h1>BOOK NAME</h1>
-        <h3>Book Publisher</h3>
+        <h1>{{data[0].book_title}}</h1>
+        <h3>{{data[0].publisher_name}}</h3>
 
         <table mat-table [dataSource]="dataSource">
 
@@ -16,9 +16,9 @@
                 <td mat-cell *matCellDef="let element"> {{element.book_isbn}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="borrow">
+            <ng-container matColumnDef="book_available">
                 <th mat-header-cell *matHeaderCellDef> Action </th>
-                <td mat-cell *matCellDef="let element"> <button *ngIf="element.borrow == 1" mat-flat-button style="background-color:#1dbb00;">Borrow</button> </td>
+                <td mat-cell *matCellDef="let element"> <button *ngIf="element.book_available == 1" mat-flat-button style="background-color:#1dbb00;">Borrow</button> </td>
             </ng-container>
     
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
