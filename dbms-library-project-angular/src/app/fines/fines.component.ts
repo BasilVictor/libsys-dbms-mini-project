@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
+
+import { FinesService } from '../services/fines.service';
 
 export interface PeriodicElement {
   fine_id: number;
@@ -18,13 +22,29 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class FinesComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor(private location: Location,
+    private router: Router,
+    private finesService: FinesService,
+    @Inject('BaseURL') private BaseURL) { }
 
-  ngOnInit(): void {
-  }
 
   displayedColumns: string[] = ['fine_id', 'book_title', 'fine_amount'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource: any;
+
+  ngOnInit(): void {
+    var accessToken = localStorage.getItem('accessToken');
+
+    var requestOptions = {
+      headers: new HttpHeaders({'authorization': 'Bearer ' + accessToken})
+    }
+
+    this.finesService.getMemberFines(requestOptions)
+    .subscribe(res => {
+      this.dataSource = new MatTableDataSource(res);
+    }, err => {
+      this.router.navigate(['/login']);
+    })
+  }
 
   goBack(): void {
     this.location.back();

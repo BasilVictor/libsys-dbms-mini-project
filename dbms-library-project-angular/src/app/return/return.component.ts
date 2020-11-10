@@ -43,7 +43,7 @@ export class ReturnComponent implements OnInit {
     .subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
     }, err => {
-      console.log(err);
+      this.router.navigate(['/login']);
     });
 
   }

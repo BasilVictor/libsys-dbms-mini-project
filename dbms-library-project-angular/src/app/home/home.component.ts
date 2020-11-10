@@ -6,12 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { BooksService } from '../services/books.service';
 
-export interface PeriodicElement {
-  book_title: string;
-  book_id: number;
-  publisher_name: string;
-}
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
