@@ -37,7 +37,7 @@ booksRouter.route('/')
                         .then((publisher_id) => {
                             //Insert into book
                             db.query(`INSERT INTO book (book_title, book_price, publisher_id, book_author) VALUES ('${req.body.book_title}',
-                            '${req.body.book_price}', ${publisher_id.rows[0].publisher_id}, ${req.body.book_author})`)
+                            '${req.body.book_price}', ${publisher_id.rows[0].publisher_id}, '${req.body.book_author}')`)
                             .then((resp) => {
                                 //Get book_id
                                 db.query(`SELECT book_id FROM book WHERE book_title = '${req.body.book_title}'`)
@@ -56,7 +56,7 @@ booksRouter.route('/')
                 }
                 else {
                     db.query(`INSERT INTO book (book_title, book_price, publisher_id, book_author) VALUES ('${req.body.book_title}',
-                    ${req.body.book_price}, ${publisher_id.rows[0].publisher_id}, ${req.body.book_author})`)
+                    ${req.body.book_price}, ${publisher_id.rows[0].publisher_id}, '${req.body.book_author}')`)
                     .then((resp) => {
                         //Get book_id
                         db.query(`SELECT book_id FROM book WHERE book_title = '${req.body.book_title}'`)
@@ -74,8 +74,8 @@ booksRouter.route('/')
             }, (err) => next(err))
         }
         else {
-            db.query(`INSERT INTO book_listing (book_isbn, book_available, book_id, book_author) VALUES (${req.body.book_isbn},
-                ${req.body.book_available}, ${book_id.rows[0].book_id}, ${req.body.book_author})`)
+            db.query(`INSERT INTO book_listing (book_isbn, book_available, book_id) VALUES (${req.body.book_isbn},
+                ${req.body.book_available}, ${book_id.rows[0].book_id})`)
                 .then((resp) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');

@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { baseURL } from '../shared/baseurl';
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 import { identifierModuleUrl } from '@angular/compiler';
+import { Book } from '../shared/book';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,11 @@ export class BooksService {
 
     returnBook(req: any, id: number): Observable<any> {
       return this.http.post(baseURL + 'books/return/' + id, {}, req)
+      .pipe(catchError(this.processHTTPMsgService.handleError));
+    }
+
+    addBook(req: any, body: Book): Observable<any> {
+      return this.http.post(baseURL + 'books/', body, req)
       .pipe(catchError(this.processHTTPMsgService.handleError));
     }
 }

@@ -4,7 +4,8 @@ const pool = new Pool({
   password: "password",
   host: "127.0.0.1",
   port: 5432,
-  database: "dbms_library_mini_project"
+  database: "dbms_mp_libsys"
+  // database: "dbms_library_mini_project"
 });
 module.exports = {
   query: (text, params, callback) => {
