@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     private snackbar: SnackbarService,
     @Inject('BaseURL') private BaseURL) {}
 
-  displayedColumns: string[] = ['book_id', 'book_title', 'publisher_name'];
+  displayedColumns: string[] = ['book_id', 'book_title', 'book_author', 'publisher_name'];
   dataSource: any;
 
   ngOnInit(): void {

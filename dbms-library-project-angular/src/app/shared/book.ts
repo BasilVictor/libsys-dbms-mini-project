@@ -4,4 +4,5 @@ export class Book {
     book_title: string;
     publisher_name: string;
     book_available: number;
+    book_author: string;
 }

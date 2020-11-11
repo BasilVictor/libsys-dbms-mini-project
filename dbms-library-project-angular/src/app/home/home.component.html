@@ -14,13 +14,16 @@
             <td mat-cell *matCellDef="let element"> {{element.book_id}} </td>
         </ng-container>
 
-        <!-- Name Column -->
         <ng-container matColumnDef="book_title">
             <th mat-header-cell *matHeaderCellDef> Book Name </th>
             <td mat-cell *matCellDef="let element"> {{element.book_title}} </td>
         </ng-container>
 
-        <!-- Weight Column -->
+        <ng-container matColumnDef="book_author">
+            <th mat-header-cell *matHeaderCellDef> Author </th>
+            <td mat-cell *matCellDef="let element"> {{element.book_author}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="publisher_name">
             <th mat-header-cell *matHeaderCellDef> Publisher </th>
             <td mat-cell *matCellDef="let element"> {{element.publisher_name}} </td>
