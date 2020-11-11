@@ -1,0 +1,40 @@
+<div class="button_row">
+    <button mat-flat-button style="background-color:#1dbb00;" [routerLink]="['/add']">Add Book</button>
+</div>
+<div class="container">
+    <mat-form-field class="field">
+        <mat-label>Search by Member Id</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Member ID" #input>
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="fine_id">
+            <th mat-header-cell *matHeaderCellDef> Fine ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.fine_id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="memb_id">
+            <th mat-header-cell *matHeaderCellDef> Member ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.memb_id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="book_title">
+            <th mat-header-cell *matHeaderCellDef> Book Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.book_title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fine_amount">
+            <th mat-header-cell *matHeaderCellDef> Fine Amount </th>
+            <td mat-cell *matCellDef="let element"> {{element.fine_amount}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pay_fine">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element"> <button mat-flat-button style="background-color:#1dbb00;" (click)="payFine(element.fine_id)">Pay Fine</button> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table_row"></tr>
+
+    </table>
+</div>

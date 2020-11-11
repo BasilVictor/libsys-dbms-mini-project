@@ -21,7 +21,6 @@ borrowsRouter.route('/')
 
 borrowsRouter.route('/:bookISBN')
 .post(auth.authenticateToken, (req, res, next) => {
-    var mem_id = 101;
     db.query(`UPDATE book_listing SET book_available = 0 WHERE book_isbn = ${req.params.bookISBN} AND book_available = 1`)
     .then((resp) => {
         console.log(resp);
@@ -34,7 +33,7 @@ borrowsRouter.route('/:bookISBN')
             var due_date_string = yyyy + "-" + mm + "-" + dd;
 
             db.query(`INSERT INTO borrows (book_isbn, due_date, memb_id) VALUES
-            (${req.params.bookISBN}, '${due_date_string}', ${mem_id})`)
+            (${req.params.bookISBN}, '${due_date_string}', ${req.memb_id})`)
             .then((resp) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');

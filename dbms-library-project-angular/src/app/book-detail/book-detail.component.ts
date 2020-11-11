@@ -24,26 +24,42 @@ export class BookDetailComponent implements OnInit {
 
   data: Book[];
   dataSource: any;
+  accessToken: string;
+  requestOptions: any;
   displayedColumns: string[] = ['book_isbn', 'book_available'];
 
   ngOnInit(): void {
-    var accessToken = localStorage.getItem('accessToken');
 
-    var requestOptions = {
-      headers: new HttpHeaders({'authorization': 'Bearer ' + accessToken})
+    this.accessToken = localStorage.getItem('accessToken');
+
+    this.requestOptions = {
+      headers: new HttpHeaders({'authorization': 'Bearer ' + this.accessToken})
     }
 
+    this.initFetch();
+
+  }
+
+  initFetch(): void {
     this.route.params.pipe(switchMap((params: Params) => { 
-      return this.booksService.getBook(requestOptions, params['book_id']);
+      return this.booksService.getBook(this.requestOptions, params['book_id']);
     }))
     .subscribe(res => {
       this.data = res;
       this.dataSource = new MatTableDataSource(this.data);
-      console.log(res);
     }, err => {
       console.log(err);
     });
+  }
 
+  borrow(isbn: number): void {
+    this.booksService.borrowBook(this.requestOptions, isbn)
+    .subscribe(res => {
+      console.log(res);
+      this.initFetch();
+    }, err => {
+      console.log(this.requestOptions);
+    });
   }
 
   

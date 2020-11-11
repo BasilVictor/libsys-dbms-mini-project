@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -28,6 +30,7 @@ import { baseURL } from './shared/baseurl';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 import { AuthService } from './services/auth.service';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { AuthService } from './services/auth.service';
     HomeComponent,
     BookDetailComponent,
     FinesComponent,
-    ReturnComponent
+    ReturnComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,8 @@ import { AuthService } from './services/auth.service';
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [
     {provide: 'BaseURL', useValue: baseURL},

@@ -31,8 +31,13 @@ export class BooksService {
       .pipe(catchError(this.processHTTPMsgService.handleError));
     }
 
+    borrowBook(req: any, id: number): Observable<any> {
+      return this.http.post(baseURL + 'borrow/' + id, {}, req)
+      .pipe(catchError(this.processHTTPMsgService.handleError));
+    }
+
     returnBook(req: any, id: number): Observable<any> {
-      return this.http.post(baseURL + 'books/return/' + id, req)
+      return this.http.post(baseURL + 'books/return/' + id, {}, req)
       .pipe(catchError(this.processHTTPMsgService.handleError));
     }
 }

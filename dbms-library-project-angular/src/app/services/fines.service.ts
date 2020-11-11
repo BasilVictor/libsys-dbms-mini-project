@@ -19,4 +19,14 @@ export class FinesService {
     return this.http.get(baseURL + 'fines/members', req)
     .pipe(catchError(this.processHTTPMsgService.handleError));
   }
+
+  getAllFines(req: any): Observable<any> {
+    return this.http.get(baseURL + 'fines', req)
+    .pipe(catchError(this.processHTTPMsgService.handleError));
+  }
+
+  payFine(req: any, id: number): Observable<any> {
+    return this.http.put(baseURL + 'fines/' + id, {}, req)
+    .pipe(catchError(this.processHTTPMsgService.handleError));
+  }
 }

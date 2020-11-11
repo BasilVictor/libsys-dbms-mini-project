@@ -40,8 +40,4 @@ export class HomeComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openSnackBar(message: string) {
-    console.log(message);
-  }
-
 }
