@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { BooksService } from '../services/books.service';
+import { SnackbarService } from '../services/snackbar.service';
 
 export interface PeriodicElement {
   issue_id: number;
@@ -25,6 +26,7 @@ export class ReturnComponent implements OnInit {
   constructor(private location: Location,
     private router: Router,
     private booksService: BooksService,
+    private snackbar: SnackbarService,
     @Inject('BaseURL') private BaseURL) { }
 
   dataSource: any;
@@ -50,6 +52,7 @@ export class ReturnComponent implements OnInit {
     .subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
     }, err => {
+      this.snackbar.showSnackbar('Failed, please login again');
       this.router.navigate(['/login']);
     });
   }
@@ -62,8 +65,10 @@ export class ReturnComponent implements OnInit {
     console.log(id);
     this.booksService.returnBook(this.requestOptions, id)
     .subscribe(res => {
+      this.snackbar.showSnackbar('Returned book successfully');
       this.fetchList();
     }, err => {
+      this.snackbar.showSnackbar('Failed to return book');
       console.log(err);
     });
   }

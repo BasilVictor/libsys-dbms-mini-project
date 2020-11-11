@@ -2,14 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
-
-
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +11,10 @@ import {
 })
 export class LoginComponent implements OnInit {
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
   constructor(private router: Router,
     private authService: AuthService,
-    @Inject('BaseURL') private BaseURL,
-    private _snackBar: MatSnackBar) { }
+    private snackbar: SnackbarService,
+    @Inject('BaseURL') private BaseURL) { }
 
   hide = true;
   memb_id: number;
@@ -41,11 +31,7 @@ export class LoginComponent implements OnInit {
       else
         this.router.navigate(['/admin'])
     }, err => {
-      this._snackBar.open('Invalid Credentials', '', {
-        duration: 3000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
+      this.snackbar.showSnackbar('Invalid credentials');
     });
   }
 

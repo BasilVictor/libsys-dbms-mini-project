@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { FinesService } from '../services/fines.service';
+import { SnackbarService } from '../services/snackbar.service';
 
 export interface PeriodicElement {
   fine_id: number;
@@ -25,6 +26,7 @@ export class FinesComponent implements OnInit {
   constructor(private location: Location,
     private router: Router,
     private finesService: FinesService,
+    private snackbar: SnackbarService,
     @Inject('BaseURL') private BaseURL) { }
 
 
@@ -42,6 +44,7 @@ export class FinesComponent implements OnInit {
     .subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
     }, err => {
+      this.snackbar.showSnackbar('Failed, please login again');
       this.router.navigate(['/login']);
     })
   }

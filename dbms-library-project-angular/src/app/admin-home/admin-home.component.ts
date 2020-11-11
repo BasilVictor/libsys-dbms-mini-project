@@ -2,14 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { FinesService } from '../services/fines.service';
+import { SnackbarService } from '../services/snackbar.service';
 
 import { MatTableDataSource } from '@angular/material/table';
-
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-home',
@@ -18,12 +13,9 @@ import {
 })
 export class AdminHomeComponent implements OnInit {
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
   constructor(private router: Router,
     private finesService: FinesService,
-    private _snackBar: MatSnackBar,
+    private snackbar: SnackbarService,
     @Inject('BaseURL') private BaseURL) { }
 
   displayedColumns: string[] = ['fine_id', 'memb_id', 'book_title', 'fine_amount', 'pay_fine'];
@@ -49,11 +41,7 @@ export class AdminHomeComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res);
     }, err => {
       console.log(err);
-      this._snackBar.open('Un-Authorized', '', {
-        duration: 3000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
+      this.snackbar.showSnackbar('Un-Authorized');
       this.router.navigate(['/login']);
     });
   }
@@ -62,8 +50,10 @@ export class AdminHomeComponent implements OnInit {
   payFine(id: number): void {
     this.finesService.payFine(this.requestOptions, id)
     .subscribe(res => {
+      this.snackbar.showSnackbar('Fine paid successfully');
       this.initFetch();
     }, err=> {
+      this.snackbar.showSnackbar('Fine not paid');
       console.log(err);
     });
   }

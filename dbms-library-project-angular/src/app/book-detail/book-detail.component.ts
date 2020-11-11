@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { BooksService } from '../services/books.service';
 import { Book } from '../shared/book';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -20,6 +21,7 @@ export class BookDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private booksService: BooksService,
+    private snackbar: SnackbarService,
     @Inject('BaseURL') private BaseURL) { }
 
   data: Book[];
@@ -55,9 +57,11 @@ export class BookDetailComponent implements OnInit {
   borrow(isbn: number): void {
     this.booksService.borrowBook(this.requestOptions, isbn)
     .subscribe(res => {
+      this.snackbar.showSnackbar('Book borrowed successfully');
       console.log(res);
       this.initFetch();
     }, err => {
+      this.snackbar.showSnackbar('Book could not be borrowed');
       console.log(this.requestOptions);
     });
   }

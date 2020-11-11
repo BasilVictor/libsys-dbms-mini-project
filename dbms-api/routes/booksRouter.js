@@ -9,7 +9,7 @@ booksRouter.use(bodyParser.json());
 
 booksRouter.route('/')
 .get(auth.authenticateToken, (req, res, next) => {
-    db.query(`SELECT b.book_id, b.book_title, p.publisher_name FROM book AS b JOIN publisher AS p ON b.publisher_id = p.publisher_id`)
+    db.query(`SELECT b.book_id, b.book_title, b.book_author, p.publisher_name FROM book AS b JOIN publisher AS p ON b.publisher_id = p.publisher_id`)
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -36,8 +36,8 @@ booksRouter.route('/')
                         db.query(`SELECT publisher_id FROM publisher WHERE publisher_name='${req.body.publisher_name}' LIMIT 1`)
                         .then((publisher_id) => {
                             //Insert into book
-                            db.query(`INSERT INTO book (book_title, book_price, publisher_id) VALUES ('${req.body.book_title}',
-                            '${req.body.book_price}', ${publisher_id.rows[0].publisher_id})`)
+                            db.query(`INSERT INTO book (book_title, book_price, publisher_id, book_author) VALUES ('${req.body.book_title}',
+                            '${req.body.book_price}', ${publisher_id.rows[0].publisher_id}, ${req.body.book_author})`)
                             .then((resp) => {
                                 //Get book_id
                                 db.query(`SELECT book_id FROM book WHERE book_title = '${req.body.book_title}'`)
@@ -55,8 +55,8 @@ booksRouter.route('/')
                     }, (err) => next(err));
                 }
                 else {
-                    db.query(`INSERT INTO book (book_title, book_price, publisher_id) VALUES ('${req.body.book_title}',
-                    ${req.body.book_price}, ${publisher_id.rows[0].publisher_id})`)
+                    db.query(`INSERT INTO book (book_title, book_price, publisher_id, book_author) VALUES ('${req.body.book_title}',
+                    ${req.body.book_price}, ${publisher_id.rows[0].publisher_id}, ${req.body.book_author})`)
                     .then((resp) => {
                         //Get book_id
                         db.query(`SELECT book_id FROM book WHERE book_title = '${req.body.book_title}'`)
@@ -74,8 +74,8 @@ booksRouter.route('/')
             }, (err) => next(err))
         }
         else {
-            db.query(`INSERT INTO book_listing (book_isbn, book_available, book_id) VALUES (${req.body.book_isbn},
-                ${req.body.book_available}, ${book_id.rows[0].book_id})`)
+            db.query(`INSERT INTO book_listing (book_isbn, book_available, book_id, book_author) VALUES (${req.body.book_isbn},
+                ${req.body.book_available}, ${book_id.rows[0].book_id}, ${req.body.book_author})`)
                 .then((resp) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
@@ -92,7 +92,7 @@ booksRouter.route('/')
 
 booksRouter.route('/:bookId')
 .get(auth.authenticateToken, (req, res, next) => {
-    db.query(`SELECT a.book_isbn, a.book_available, b.book_title, b.book_price, c.publisher_name FROM book_listing AS a JOIN book
+    db.query(`SELECT a.book_isbn, a.book_available, b.book_title, b.book_price, b.book_author, c.publisher_name FROM book_listing AS a JOIN book
      AS b ON a.book_id = b.book_id JOIN publisher AS c ON c.publisher_id = b.publisher_id AND b.book_id = ${req.params.bookId}`, (err, resp) => {
         if(err) {
             return next(err);

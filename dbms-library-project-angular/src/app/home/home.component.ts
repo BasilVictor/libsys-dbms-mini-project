@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { BooksService } from '../services/books.service';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private router: Router,
     private booksService: BooksService,
+    private snackbar: SnackbarService,
     @Inject('BaseURL') private BaseURL) {}
 
   displayedColumns: string[] = ['book_id', 'book_title', 'publisher_name'];
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
     .subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
     }, err => {
+      this.snackbar.showSnackbar('Failed, please login again');
       this.router.navigate(['/login']);
     });
   }
