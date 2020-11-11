@@ -31,6 +31,7 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 import { AuthService } from './services/auth.service';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { AddBookComponent } from './add-book/add-book.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
     BookDetailComponent,
     FinesComponent,
     ReturnComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    AddBookComponent
   ],
   imports: [
     BrowserModule,
