@@ -7,15 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FinesService } from '../services/fines.service';
 import { SnackbarService } from '../services/snackbar.service';
 
-export interface PeriodicElement {
-  fine_id: number;
-  fine_amount: number;
-  book_title: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {fine_id: 1, fine_amount: 100.00, book_title: "Yolo"}
-];
-
 @Component({
   selector: 'app-fines',
   templateUrl: './fines.component.html',

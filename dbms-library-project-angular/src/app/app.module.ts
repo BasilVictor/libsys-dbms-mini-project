@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -58,7 +60,8 @@ import { AddBookComponent } from './add-book/add-book.component';
     MatButtonModule,
     MatTableModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FlexLayoutModule
   ],
   providers: [
     {provide: 'BaseURL', useValue: baseURL},

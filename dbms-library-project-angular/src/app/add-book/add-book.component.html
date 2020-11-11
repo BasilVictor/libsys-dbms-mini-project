@@ -1,1 +1,37 @@
-<p>add-book works!</p>
+<div class="button_row">
+    <button mat-icon-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    Back
+</div>
+<div class="container">
+    <mat-card class="card" fxLayout="column" fxLayoutGap="10px">
+        <div fxFlex fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="input_field">
+                <mat-label>Book Name</mat-label>
+                <input matInput [(ngModel)]="book_title">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="input_field">
+                <mat-label>Book Author</mat-label>
+                <input matInput [(ngModel)]="book_author">
+            </mat-form-field>
+        </div>
+        <div fxFlex fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="input_field">
+                <mat-label>Book Publisher</mat-label>
+                <input matInput [(ngModel)]="publisher_name">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="input_field">
+                <mat-label>Book Price</mat-label>
+                <input matInput [(ngModel)]="book_price" type="number">
+            </mat-form-field>
+        </div>
+        <div fxFlex fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="input_field">
+                <mat-label>Book ISBN</mat-label>
+                <input matInput [(ngModel)]="book_isbn" type="number">
+            </mat-form-field>
+        </div>
+        <button mat-flat-button color="accent" (click)="addBook()">Add Book</button>
+    </mat-card>
+</div>
