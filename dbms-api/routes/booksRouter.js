@@ -107,15 +107,22 @@ booksRouter.route('/:bookId')
 
 booksRouter.route('/return/:issueId')
 .post(auth.authenticateToken, (req, res, next) => {
+    var fine = 1;
     db.query(`SELECT book_isbn, EXTRACT(DAY FROM now() - due_date) AS days FROM borrows 
     WHERE issue_id = ${req.params.issueId} AND due_date > '1970-01-01' AND memb_id = ${req.memb_id}`)
     .then((resp) => {
         if(resp.rows.length > 0) {
             var days = resp.rows[0].days;
             if(days > 0) {
-                var fine = 100;
-                db.query(`INSERT INTO fine (issue_id, fine_amount) VALUES
-                (${req.params.issueId}, ${fine})`);
+                db.query(`SELECT memb_type FROM members WHERE memb_id = ${req.memb_id}`)
+                .then((resp) => {
+                    var memb_type = resp.rows[0].memb_type;
+                    if(memb_type == 2) {
+                        fine = 5;
+                    }
+                    fine = fine * days;
+                    db.query(`INSERT INTO fine (issue_id, fine_amount) VALUES (${req.params.issueId}, ${fine})`);
+                });
             }
             db.query(`UPDATE book_listing SET book_available = 1 WHERE book_isbn = ${resp.rows[0].book_isbn} AND book_available = 0`)
             .then((resp) => {
